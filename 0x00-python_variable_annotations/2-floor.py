@@ -1,18 +1,9 @@
 #!/usr/bin/env python3
+""" Basic annotations concat """
+
 import math
 
-"""
-This module defines a function that returns the floor of a floating-point number.
-"""
 
 def floor(n: float) -> int:
-    """
-    Returns the floor of a floating-point number.
-
-    Args:
-        n (float): The floating-point number to floor.
-
-    Returns:
-        int: The largest integer less than or equal to n.
-    """
+    """ Returns the floor of the float """
     return math.floor(n)

@@ -1,39 +1,18 @@
 #!/usr/bin/env python3
-"""Module for concurrent coroutines that returns a list of delays in ascending order."""
+""" The basics of async """
 
-import asyncio
-import importlib.util
-from typing import List
+from asyncio import run
+from time import time
 
-# Specify the path to the file '0-basic_async_syntax.py'
-module_name = 'basic_async_syntax'
-module_path = './0-basic_async_syntax.py'
+wait_n = __import__('1-concurrent_coroutines').wait_n
 
-# Load the module using importlib
-spec = importlib.util.spec_from_file_location(module_name, module_path)
-basic_async_syntax = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(basic_async_syntax)
 
-# Now you can use wait_random from the dynamically loaded module
-wait_random = basic_async_syntax.wait_random
+def measure_time(n: int, max_delay: int) -> float:
+    """ Measure the runtime """
+    start = time()
 
-async def wait_n(n: int, max_delay: int) -> List[float]:
-    """
-    Spawn wait_random n times with the specified max_delay and return the list
-    of delays in ascending order without using sort().
+    run(wait_n(n, max_delay))
 
-    Args:
-        n (int): Number of times to call wait_random.
-        max_delay (int): Maximum delay for wait_random.
+    end = time()
 
-    Returns:
-        List[float]: List of all delays in ascending order.
-    """
-    tasks = [asyncio.create_task(wait_random(max_delay)) for _ in range(n)]
-    
-    delays = []
-    for task in asyncio.as_completed(tasks):
-        delay = await task
-        delays.append(delay)
-    
-    return delays
+    return (end - start) / n
